@@ -1,0 +1,60 @@
+import pandas as pd
+
+# Load wine data from your table
+wine_data = pd.read_csv('wine_data.csv')
+
+def search_wines(criteria):
+    """
+    Function to search wines based on given criteria.
+    """
+    # You can extend this function to search based on various criteria
+    results = wine_data[wine_data['description'].str.contains(criteria, case=False)]
+    return results
+
+def display_wine_info(wine):
+    """
+    Function to display information about a specific wine.
+    """
+    print("Name:", wine['name'])
+    print("Taste:", wine['taste'])
+    print("Food Pairing:", wine['food_pairing'])
+    print("Alcohol Percentage:", wine['alcohol_percentage'])
+    print("Rating:", wine['rating'])
+    print("Description:", wine['description'])
+    # Add more information as needed
+
+def recommend_wines(preferences):
+    """
+    Function to recommend wines based on customer preferences.
+    """
+    # Logic for recommendations based on preferences
+    # You can use collaborative filtering, content-based filtering, or other recommendation algorithms
+    # For simplicity, let's just return a random wine from the dataset
+    recommended_wine = wine_data.sample()
+    return recommended_wine
+
+# Example usage
+def main():
+    print("Welcome to the Wine Bot! How can I assist you today?")
+    while True:
+        user_input = input("You can ask me about wines, or type 'quit' to exit: ")
+        
+        if user_input.lower() == 'quit':
+            print("Thank you for using the Wine Bot. Have a great day!")
+            break
+        
+        # Example of searching wines
+        search_results = search_wines(user_input)
+        if not search_results.empty:
+            print("Here are the matching wines:")
+            for index, wine in search_results.iterrows():
+                display_wine_info(wine)
+        else:
+            print("Sorry, no wines match your criteria.")
+        
+        # Example of recommending wines
+        recommended = recommend_wines(user_input)
+        print("Based on your preferences, I recommend you try", recommended['name'].values[0])
+
+if __name__ == "__main__":
+    main()
